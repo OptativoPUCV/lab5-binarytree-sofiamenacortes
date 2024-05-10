@@ -61,54 +61,38 @@ TreeNode * minimum(TreeNode * x){
 
 
 void removeNode(TreeMap * tree, TreeNode* node) {
-    //caso 1: El no tiene hijos
-    if(node->left==NULL && node->right==NULL){
-        if(node->parent == NULL){
+    if (node->left == NULL && node->right == NULL) {
+        if (node->parent == NULL) {
             tree->root = NULL;
-        }else if(node->parent->left == node){
+        } else if (node->parent->left == node) {
             node->parent->left = NULL;
-        }else {
+        } else {
             node->parent->right = NULL;
         }
         free(node->pair);
         free(node);
-    }else if(node->left != NULL && node->right == NULL){
-         // caso 2: el nodo izquierdo tiene un hijo
-        TreeNode * child = node->left;
-        
-        if(node->parent == NULL){
-            tree->root = child;
-        }else if(node->parent->left == node){
-            node->parent->left = child;
-        }else {
-            node->parent->right = child;
-        }
-        child->parent = node->parent; //se actualiza el padre del hijo
-        free(node->pair);
-        free(node);
-        
-    }else if(node->left == NULL && node->right != NULL){
-        // caso 3: el nodo derecho tiene un hijo
-        TreeNode* child = node->right;
-
-        if(node->parent == NULL){
-            tree->root = child;
-        }else if(node->parent->left == node){
-            node->parent->left = child;
-        }else {
-            node->parent->right = child;
-        }
-        child->parent = node->parent; //se actualiza el padre del hijo
-        free(node->pair);
-        free(node);
-    }else {
-        // caso 4: el nodo tiene dos hijos
+    } else if (node->left != NULL && node->right == NULL) {
         TreeNode* min = minimum(node->right);
         node->pair->key = min->pair->key;
         node->pair->value = min->pair->value;
-        removeNode(tree, min); 
+        removeNode(tree, min);
+    } else {
+        TreeNode* child = (node->left != NULL) ? node->left : node->right;
+        if (node->parent == NULL) {
+            tree->root = child;
+        } else if (node->parent->left == node) {
+            node->parent->left = child;
+        } else {
+            node->parent->right = child;
+        }
+        if (child != NULL) { // Actualizar el puntero parent del hijo
+            child->parent = node->parent;
+        }
+        free(node->pair);
+        free(node);
     }
 }
+
 
 void eraseTreeMap(TreeMap * tree, void* key){
     if (tree == NULL || tree->root == NULL) return;
