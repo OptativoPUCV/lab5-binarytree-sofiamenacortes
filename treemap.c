@@ -101,17 +101,17 @@ Pair * upperBound(TreeMap * tree, void* key) {
     TreeNode* resultado = NULL;
 
     while(aux != NULL){
-        int cmp = tree->lower_than(key, aux->pair->key);
-        if(cmp >= 0){
+        int cmp = tree->lower_than(aux->pair->key, key);
+        if(cmp>= 0){
             resultado = aux;
             aux = aux->left;
         }else {
             aux = aux->right;
         }
     }
-    if(resultado != NULL) {
+    if(resultado != NULL){
         tree->current = resultado;
-        return resultado->pair;
+        return resultado->pair;       
     }else {
         return NULL;
     }
