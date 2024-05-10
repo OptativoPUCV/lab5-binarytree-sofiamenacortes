@@ -93,11 +93,11 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) {
 }
 
 TreeNode * minimum(TreeNode * x){
-    if(x->left==NULL) return x;
-    return minimum(x->left);
-    
-
-    return NULL;
+    while (x->left != NULL) {
+        x = x->left;
+    }
+    // Retornamos el nodo más a la izquierda, que será el nodo con la clave mínima
+    return x;
 }
 
 
