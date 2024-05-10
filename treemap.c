@@ -137,9 +137,8 @@ Pair * searchTreeMap(TreeMap * tree, void* key) {
 }
 
 
-Pair * upperBound(TreeMap * tree, void* key) {
-
-        return NULL;
+Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya llave sea mayor que la clave dada
+    return NULL;
 }
 
 Pair * firstTreeMap(TreeMap * tree) {
