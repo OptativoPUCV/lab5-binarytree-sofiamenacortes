@@ -61,6 +61,7 @@ TreeNode * minimum(TreeNode * x){
 
 
 void removeNode(TreeMap * tree, TreeNode* node) {
+    //caso 1: El no tiene hijos
     if(node->left==NULL && node->right==NULL){
         if(node->parent == NULL){
             tree->root = NULL;
@@ -72,26 +73,41 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node->pair);
         free(node);
     }else if(node->left != NULL && node->right == NULL){
-        TreeNode* min = minimum(node->right);
-        node->pair->key = min->pair->key;
-        node->pair->value = min->pair->value;
-        removeNode(tree, min);
-    }else {
-        TreeNode* child = (node->left != NULL) ? node->left : node->right;
+         // caso 2: el nodo izquierdo tiene un hijo
+        TreeNode * child = node->left;
+        
         if(node->parent == NULL){
             tree->root = child;
-        }else if (node->parent->left == node){
+        }else if(node->parent->left == node){
             node->parent->left = child;
         }else {
             node->parent->right = child;
         }
-        if(child != NULL){
-            child->parent = node->parent;
-        }
+        child->parent = node->parent; //se actualiza el padre del hijo
         free(node->pair);
         free(node);
-    }
+        
+    }else if(node->left == NULL && node->right != NULL){
+        // caso 3: el nodo derecho tiene un hijo
+        TreeNode* child = node->right;
 
+        if(node->parent == NULL){
+            tree->root = child;
+        }else if(node->parent->left == node){
+            node->parent->left = child;
+        }else {
+            node->parent->right = child;
+        }
+        child->parent = node->parent; //se actualiza el padre del hijo
+        free(node->pair);
+        free(node);
+    }else {
+        // caso 4: el nodo tiene dos hijos
+        TreeNode* min = minimum(node->right);
+        node->pair->key = min->pair->key;
+        node->pair->value = min->pair->value;
+        removeNode(tree, min); 
+    }
 }
 
 void eraseTreeMap(TreeMap * tree, void* key){
