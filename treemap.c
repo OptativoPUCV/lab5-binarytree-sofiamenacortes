@@ -93,11 +93,11 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) {
 }
 
 TreeNode * minimum(TreeNode * x){
-    while (x->left != NULL) {
-        x = x->left;
-    }
-    // Retornamos el nodo más a la izquierda, que será el nodo con la clave mínima
-    return x;
+    if(x->left==NULL) return x;
+    return minimum(x->left);
+    
+
+    return NULL;
 }
 
 
@@ -148,29 +148,6 @@ void eraseTreeMap(TreeMap * tree, void* key){
 
 
 Pair * searchTreeMap(TreeMap * tree, void* key) {
-    if (tree == NULL || tree->root == NULL) {
-        // Si el árbol está vacío, o no se proporciona un árbol válido, retornamos NULL
-        return NULL;
-    }
-
-    TreeNode* current = tree->root;
-
-    // Recorremos el árbol hasta encontrar el nodo con la clave buscada o llegar a una hoja
-    while (current != NULL) {
-        if (tree->lower_than(key, current->pair->key)) {
-            // Si la clave buscada es menor que la clave del nodo actual, vamos al hijo izquierdo
-            current = current->left;
-        } else if (tree->lower_than(current->pair->key, key)) {
-            // Si la clave buscada es mayor que la clave del nodo actual, vamos al hijo derecho
-            current = current->right;
-        } else {
-            // Si encontramos un nodo con la clave buscada, retornamos su par clave-valor
-            tree->current = current; // Actualizamos el puntero current al nodo encontrado
-            return current->pair;
-        }
-    }
-
-    // Si no se encuentra la clave, retornamos NULL
     return NULL;
 }
 
