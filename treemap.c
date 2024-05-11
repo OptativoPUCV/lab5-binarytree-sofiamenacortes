@@ -47,47 +47,37 @@ TreeMap * createTreeMap(int (*lower_than) (void* key1, void* key2)) {
 }
 
 
-void insertTreeMap(TreeMap * tree, void* key, void * value) {
-    TreeNode* newNode = createTreeNode(key, value);
-    if (newNode == NULL) {
-        // Error al crear el nodo, no se puede insertar
+void insertTreeMap(TreeMap * tree, void* key, void * value) { //inserta un nuevo nodo en el arbol
+    TreeNode* newNode = createTreeNode(key, value); //si inserto un nuevo par clave-valor se necesita un nuevo nodo
+    if(newNode == NULL){
         return;
     }
-
-    // Si el árbol está vacío, el nuevo nodo se convierte en la raíz
-    if (tree->root == NULL) {
+    if(tree->root == NULL){
         tree->root = newNode;
-        tree->current = newNode; // Actualizar el puntero current al nuevo nodo
+        tree->current = newNode;
         return;
     }
-
     TreeNode* current = tree->root;
     TreeNode* parent = NULL;
-
-    // Encontrar la posición adecuada para insertar el nuevo nodo
-    while (current != NULL) {
-        parent = current;
-        if (tree->lower_than(key, current->pair->key)) {
+    
+    while(current != NULL){
+        parent = current;    
+        if(tree->lower_than(current->pair->key, key)){
             current = current->left;
-        } else if (tree->lower_than(current->pair->key, key)) {
+        }else if(tree->lower_than(key, current->pair->key)){
             current = current->right;
-        } else {
-            // La clave ya existe en el árbol, no se permite la inserción de claves duplicadas
-            free(newNode->pair); // Liberar la memoria del par clave-valor
-            free(newNode); // Liberar la memoria del nodo
+        }else{
+            free(newNode->pair);
+            free(newNode);
             return;
-        }
+        }        
     }
-
-    // Enlazar el nuevo nodo al árbol
     newNode->parent = parent;
-    if (tree->lower_than(key, parent->pair->key)) {
+    if(tree->lower_than(key, parent->pair->key)){
         parent->left = newNode;
-    } else {
+    }else{
         parent->right = newNode;
     }
-
-    // Actualizar el puntero current al nuevo nodo
     tree->current = newNode;
    
 }
