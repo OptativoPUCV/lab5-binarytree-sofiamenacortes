@@ -101,7 +101,22 @@ TreeNode * minimum(TreeNode * x){
 }
 
 
-void removeNode(TreeMap * tree, TreeNode* node) {
+void removeNode(TreeMap * tree, TreeNode* node) { //elimina un nodo especifico (no tiene hijos, uno solo y sin hijos)
+    if(node->parent==NULL){ //si es la raiz
+        tree->root=NULL;
+        tree->current=NULL;
+        return;
+    } 
+    if(node->parent->left==node){ //si es hijo izquierdo
+        node->parent->left=NULL;
+        
+    }else if(node->parent->right==node){
+        node->parent->right = NULL;    
+    }
+
+    free(node->pair);
+    free(node);
+    
     
 }
 
