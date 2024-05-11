@@ -190,28 +190,18 @@ Pair * searchTreeMap(TreeMap * tree, void* key) {
 
 
 Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya llave sea mayor que la clave dada
-    if (tree == NULL || tree->root == NULL) {
-        return NULL; // El árbol está vacío, no hay ningún par para devolver
-    }
-
+    if (tree == NULL || tree->root == NULL) return NULL;
     TreeNode* current = tree->root;
-    TreeNode* resultado = NULL;
+    TreeNode* ub = NULL;
 
-    // Recorremos el árbol para encontrar el primer nodo cuya clave sea mayor que la clave dada
-    while (current != NULL) {
-        if (tree->lower_than(current->pair->key, key)) {
-            resultado = current; // Actualizamos el resultado si la clave del nodo es mayor que la clave dada
-            current = current->left; // Exploramos el subárbol izquierdo
-        } else {
-            current = current->right; // Exploramos el subárbol derecho
+    while (current != NULL){
+        if (tree->lower_than(key, current->pair->key)){
+            current = current->left;
+            
+        }else{
+            current = current->right;
         }
-    }
-
-    if (resultado != NULL) {
-        tree->current = resultado; // Actualizamos el puntero current al nodo encontrado
-        return resultado->pair; // Devolvemos el par correspondiente al nodo encontrado
-    } else {
-        return NULL; // No se encontró ningún nodo cuya clave sea mayor que la clave dada
+        
     }
     return NULL;
 }
