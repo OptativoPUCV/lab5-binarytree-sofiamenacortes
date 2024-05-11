@@ -196,6 +196,7 @@ Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya ll
 
     while (current != NULL){
         if (tree->lower_than(key, current->pair->key)){
+            ub = current;
             current = current->left;
             
         }else{
@@ -203,7 +204,7 @@ Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya ll
         }
         
     }
-    return NULL;
+    return (ub != NULL) ? ub->pair : NULL;
 }
 
 Pair * firstTreeMap(TreeMap * tree) {
