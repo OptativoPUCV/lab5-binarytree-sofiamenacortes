@@ -52,6 +52,8 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) { //inserta un nuevo
     if(newNode == NULL){
         return;
     }
+
+    //si el arbol esta vacio, el nuevo nodo sera la raiz    
     if(tree->root == NULL){
         tree->root = newNode;
         tree->current = newNode;
@@ -60,33 +62,40 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) { //inserta un nuevo
     TreeNode* current = tree->root;
     TreeNode* parent = NULL;
     
+    //encontrar la posicion donde insertar el nodo
     while(current != NULL){
         parent = current;    
-        if(tree->lower_than(current->pair->key, key)){
+        if(tree->lower_than(key, current->pair->key)){
             current = current->left;
-        }else if(tree->lower_than(key, current->pair->key)){
+            
+        }else if(tree->lower_than(current->pair->key, key)){
             current = current->right;
+            
         }else{
             free(newNode->pair);
             free(newNode);
             return;
         }        
     }
+
+    //conectar el nuevo nodo al arbol   
     newNode->parent = parent;
     if(tree->lower_than(key, parent->pair->key)){
         parent->left = newNode;
+        
     }else{
         parent->right = newNode;
+        
     }
     tree->current = newNode;
    
 }
 
+
 TreeNode * minimum(TreeNode * x){
     if(x->left==NULL) return x;
     return minimum(x->left);
     
-
     return NULL;
 }
 
@@ -103,6 +112,7 @@ void removeNode(TreeMap * tree, TreeNode* node) { //elimina un nodo especifico (
         }
         free(node->pair);
         free(node);
+
     }else if(node->left != NULL && node->right == NULL){
         //Nodo tiene un hijo izquierdo
         TreeNode* aux = node->left;
@@ -116,6 +126,7 @@ void removeNode(TreeMap * tree, TreeNode* node) { //elimina un nodo especifico (
         aux->parent = node->parent;
         free(node->pair);
         free(node);
+        
     }else if(node->left == NULL && node->right != NULL){
         //Nodo tiene un hijo derecho
         TreeNode* aux = node->right;
@@ -129,14 +140,14 @@ void removeNode(TreeMap * tree, TreeNode* node) { //elimina un nodo especifico (
         aux->parent = node->parent;
         free(node->pair);
         free(node);
+        
     }else{
         //Nodo con dos hijos
         TreeNode* siguenteNum = minimum(node->right);
         node->pair->key = siguenteNum->pair->key;
         node->pair->value = siguenteNum->pair->value;
         removeNode(tree, siguenteNum);
-    }
-    
+    }    
 }
 
 
@@ -148,8 +159,6 @@ void eraseTreeMap(TreeMap * tree, void* key){
     removeNode(tree, node);
 
 }
-
-
 
 
 Pair * searchTreeMap(TreeMap * tree, void* key) {
@@ -205,6 +214,7 @@ Pair * firstTreeMap(TreeMap * tree) {
     return aux->pair;    
 }
 
+
 Pair * nextTreeMap(TreeMap * tree) {
     if (tree == NULL || tree->current == NULL) return NULL;
 
@@ -214,6 +224,7 @@ Pair * nextTreeMap(TreeMap * tree) {
         while(aux->left != NULL){
             aux = aux->left;
         }
+        
     }else {
         TreeNode* parent = aux->parent;
         while(parent != NULL && aux == parent->right){
