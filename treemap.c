@@ -199,7 +199,7 @@ Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya ll
 
     // Recorremos el árbol para encontrar el primer nodo cuya clave sea mayor que la clave dada
     while (current != NULL) {
-        if (tree->lower_than(key, current->pair->key)) {
+        if (tree->lower_than(current->pair->key, key)) {
             resultado = current; // Actualizamos el resultado si la clave del nodo es mayor que la clave dada
             current = current->left; // Exploramos el subárbol izquierdo
         } else {
