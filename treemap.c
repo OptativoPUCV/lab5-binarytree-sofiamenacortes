@@ -190,12 +190,15 @@ Pair * searchTreeMap(TreeMap * tree, void* key) {
 
 
 Pair * upperBound(TreeMap * tree, void* key) { //Encuentra el primer par cuya llave sea mayor que la clave dada
-    if (tree == NULL || tree->root == NULL) return NULL;
+    if (tree == NULL || tree->root == NULL){
+        return NULL;
+    } 
+    
     TreeNode* current = tree->root;
     TreeNode* ub = NULL;
 
     while (current != NULL){
-        if (tree->lower_than(key, current->pair->key)){
+        if (!tree->lower_than(current->pair->key, key)){
             ub = current;
             current = current->left;
             
